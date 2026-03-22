@@ -3,6 +3,7 @@
 // Author: Mehmet Efe Binicioglu | Student ID: 230446046
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FlightController : MonoBehaviour
 {
@@ -35,13 +36,20 @@ public class FlightController : MonoBehaviour
         // Pitch: W/S Keys or Up/Down Arrow Keys (Vertical Axis).
         float pitchInput = Input.GetAxis("Vertical");
         float pitchAmount = pitchInput * pitchSpeed * Time.deltaTime;
+        transform.Rotate(Vector3.right*pitchAmount); // Pitch
 
-        // Roll: A/D Keys or Left/Right Arrow Keys (Horizontal Axis).
-        float rollInput = Input.GetAxis("Horizontal");
+        // Yaw: A/D Keys or Left/Right Arrow Keys (Horizontal Axis).
+        float yawInput = Input.GetAxis("Horizontal");
+        float yawAmount = yawInput * yawSpeed * Time.deltaTime;
+        transform.Rotate(Vector3.up*yawAmount); // Yaw
+
+        // Roll: Q/E Keys.
+        float rollInput = 0;
+        if (Input.GetKey(KeyCode.Q)) rollInput = -1f; // Roll Left
+        if (Input.GetKey(KeyCode.E)) rollInput = 1f; // Roll Right
         float rollAmount = rollInput * rollSpeed * Time.deltaTime;
+        transform.Rotate(Vector3.forward* - rollAmount); // Roll (Left/Right)
 
-        transform.Rotate(Vector3.left*pitchAmount); // Pitch
-        transform.Rotate(Vector3.back*rollAmount); // Roll
     }
 
     private void HandleThrust()
